@@ -1,0 +1,27 @@
+{
+  "name": "@starbase/starfire",
+  "version": "0.0.1",
+  "description": "Database Adapter for Google Cloud Firestore",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starbasealpha/starfire.git"
+  },
+  "keywords": [
+    "Firestore",
+    "Database",
+    "Adapter",
+    "Starbase",
+    "Alpha",
+    "Channels"
+  ],
+  "author": "Mike Fuller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/starbasealpha/starfire/issues"
+  },
+  "homepage": "https://github.com/starbasealpha/starfire#readme"
+}
