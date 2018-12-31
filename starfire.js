@@ -2,6 +2,8 @@
 
 function Starfire(firestoreDB, collectionPath) {
 
+  let onEvent = null;
+
   if (!firestoreDB) {
     throw("The Firstore Database (firestoreDB) is missing.");
     return null;
@@ -25,13 +27,25 @@ function Starfire(firestoreDB, collectionPath) {
     }
   };
   
+  starfire.onEvent = (cb) => {
+    onEvent = cb;
+  };
+
+  let EVENT = (e) => {
+    if (onEvent && typeof onEvent === 'function') {
+      onEvent(e);
+    }
+  };
+
   starfire.put = async (key=null, value=null) => {
     if (key.match(/\:/g)) {
       return Promise.reject({"code":400,"message":"The colon (:) is a reserved character."});
     }
 
     return await DB.collection(collectionPath).doc(adapt.to(key)).set({"key":adapt.to(key),"value":value}).then(() => {
-      return {"event":"write", "key":key, "timestamp":Date.now()};
+      let e = {"event":"write", "key":key, "timestamp":Date.now()};
+      EVENT(e);
+      return e;
     }).catch(err => {
       return {"code":400,"message":err.message||err.toString()||"ERROR!"};
     });
@@ -69,6 +83,7 @@ function Starfire(firestoreDB, collectionPath) {
       "keys": keyPaths,
       "timestamp": Date.now()
     };
+    EVENT(e);
     return e;
 
   };
@@ -128,6 +143,7 @@ function Starfire(firestoreDB, collectionPath) {
         "keys": items.map(val=>{return val.key;}),
         "timestamp": Date.now()
       };
+      EVENT(e);
       return e;
     }).catch(err => {
       return {"code":400,"message":err.message||err.toString()||"ERROR!"};
@@ -137,7 +153,9 @@ function Starfire(firestoreDB, collectionPath) {
   starfire.deleteDB = async () => {
     return starfire.list({}).then(results=>{
       return starfire.del(results).then(()=>{
-        return {"event":"deleteDB", "timestamp": Date.now()};
+        let e = {"event":"deleteDB", "timestamp": Date.now()};
+        EVENT(e);
+        return e;
       }).catch(err=>{
         return {"code":400,"message":err.message||err.toString()||"ERROR!"};
       });
