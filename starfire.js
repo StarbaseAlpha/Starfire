@@ -88,7 +88,7 @@ function Starfire(firestoreDB, collectionPath) {
 
   };
 
-  starfire.list = async (query) => {
+  starfire.list = async (query={}) => {
     let order = "asc";
     if (query.reverse) {
       order = "desc";
@@ -97,6 +97,10 @@ function Starfire(firestoreDB, collectionPath) {
     let limit = parseInt(query.limit) || 0;
 
     let ref = DB.collection(collectionPath);
+
+    if (!query.values) {
+      ref = ref.select();
+    }
 
     if (query.gt) {
       ref = ref.where("key", ">", adapt.to(query.gt));
