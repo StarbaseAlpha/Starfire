@@ -1,6 +1,6 @@
 {
   "name": "@starbase/starfire",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Database Adapter for Google Cloud Firestore",
   "main": "index.js",
   "scripts": {
