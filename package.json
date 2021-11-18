@@ -1,6 +1,6 @@
 {
   "name": "@starbase/starfire",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Database Adapter for Google Cloud Firestore",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,9 @@
   ],
   "author": "Mike Fuller",
   "license": "MIT",
+  "dependencies": {
+    "@google-cloud/firestore": "latest"
+  },
   "bugs": {
     "url": "https://github.com/starbasealpha/starfire/issues"
   },
